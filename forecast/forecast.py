@@ -30,7 +30,7 @@ class Forecast:
         self.horizon = horizon
         self.dataBox = None
         self.normal = None
-        self.simulation_time = '1/2/1900 01:00'
+        self.simulation_time = '1/8/1900 01:00'
         self.response_variables = []
         self.predictor_variables = []
 
@@ -118,32 +118,47 @@ class Forecast:
         :param scenarios: Number of possible weather scenarios to return
         :return:
         """
-        end_horizon = datetime.strptime(self.simulation_time, '%m/%d/%Y %H:%M') + timedelta(hours=self.horizon)
+        end_horizon = datetime.strptime(self.simulation_time, '%m/%d/%Y %H:%M') + timedelta(hours=self.horizon-1)
         start_horizon = end_horizon - timedelta(hours=2*self.horizon)
+			# start_horizon.strftime('%m/%d/%Y %H:%M').replace(' 0', ' ').lstrip('0').replace('/0', '/')
 
         if trim_data:
-            data = self.dataBox.ix[start_horizon.strftime('%m/%d/%Y %H:%M').replace(' 0', ' ').lstrip('0').replace('/0', '/'): end_horizon.strftime('%m/%d/%Y %H:%M').replace(' 0', ' ').lstrip('0').replace('/0', '/')]
+            data = self.dataBox.ix[: end_horizon.strftime('%m/%d/%Y %H:%M').replace(' 0', ' ').lstrip('0').replace('/0', '/')]
         else:
             data = self.dataBox
-
+        
         data.index = pandas.to_datetime(data.index, format='%m/%d/%Y %H:%M')
+        
+        # clean data:
         for field in data:
             if field not in self.predictor_variables:
                 data = data.drop(field, axis=1)
-
+        testData = data[-self.horizon:]
         model = sm.tsa.VAR(data)
-        fit = model.fit(maxlags=lag, ic='aic')
+        fit = model.fit(maxlags=lag, ic='aic', verbose=True)
+        
+        columns = []
+        for k in range(0, self.horizon):
+            columns.append(str(datetime.strptime(self.simulation_time, '%m/%d/%Y %H:%M') + timedelta(hours=k)))
+        
         predictions = {}
+        for p in self.predictor_variables:
+            predictions[p] = pandas.DataFrame(index=np.arange(0, scenarios), columns=columns)
 
         std = data.std()
 
         for i in range(0, scenarios):
             # First, mutate the data with a random number within +-1 standard deviation:
-            copy = data
+            copy = data.copy()
             for field in copy:
                 copy[field] = copy[field].apply(lambda x: np.random.normal(loc=x, scale=std[field]))
-            predictions[i] = fit.forecast(data.values[-lag:], self.horizon)
-        return predictions
+            temp = fit.forecast(copy.values[-lag:], self.horizon)
+            # grab each prediction time series and throw it into the appropriate predictions df
+            for p in self.predictor_variables:
+                df = predictions[p]	
+                index = self.predictor_variables.index(p)
+                df.loc[i] = temp[:, index]
+        return predictions, testData
 
 
     def fit_glm(self):
