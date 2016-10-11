@@ -16,9 +16,9 @@ print('...predictions succeeded, now plotting...')
 stuff = test[weather.predictor_variables[0]].T
 # plot the first variable:
 things = predictions[weather.predictor_variables[0]]
-f, (ax1, ax2) = plot.subplots(2)
-p = seaborn.boxplot(data=things, ax=ax1)
-seaborn.tsplot(stuff, ax=ax2)
+f, ax = plot.subplots(1,1)
+p = seaborn.boxplot(data=things, ax=ax)
+seaborn.tsplot(stuff, ax=ax)
 for item in p.get_xticklabels():
     item.set_rotation(25)
 seaborn.plt.show()

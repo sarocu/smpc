@@ -145,7 +145,7 @@ class Forecast:
         for p in self.predictor_variables:
             predictions[p] = pandas.DataFrame(index=np.arange(0, scenarios), columns=columns)
 
-        std = data.std()
+        std = data[-lag:].std()
 
         for i in range(0, scenarios):
             # First, mutate the data with a random number within +-1 standard deviation:
