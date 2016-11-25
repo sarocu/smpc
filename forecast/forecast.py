@@ -111,7 +111,7 @@ class Forecast:
         return self
 
 
-    def auto_regressive(self, lag, scenarios, trim_data=True):
+    def auto_regressive(self, lag, scenarios, trim_data=True, normalize=True):
         """
         Fit a vector AR model to the data according to the given lag and compute a number of samples
         :param lag: Determines AR order of the model
@@ -133,7 +133,22 @@ class Forecast:
         for field in data:
             if field not in self.predictor_variables:
                 data = data.drop(field, axis=1)
-        testData = data[-self.horizon:]
+        testData = data[-self.horizon:].copy()
+
+        # normalize data via z-score:
+        if normalize:
+            mean = {}
+            sigma = {}
+            for field in data:
+                window = data[-self.horizon:]
+                mean[field] = data[field].mean()
+                sigma[field] = data[field].std()
+                data[field] = (data[field]-mean[field])/sigma[field]
+        else:
+            for field in data:
+                mean[field] = 1
+                sigma[field] = 1
+        
         model = sm.tsa.VAR(data)
         fit = model.fit(maxlags=lag, ic='aic', verbose=True)
         
@@ -153,10 +168,12 @@ class Forecast:
             for field in copy:
                 copy[field] = copy[field].apply(lambda x: np.random.normal(loc=x, scale=std[field]))
             temp = fit.forecast(copy.values[-lag:], self.horizon)
-            # grab each prediction time series and throw it into the appropriate predictions df
+
+            # grab each prediction time series, un-normalize and throw it into the appropriate predictions df
             for p in self.predictor_variables:
                 df = predictions[p]	
                 index = self.predictor_variables.index(p)
+                temp[:, index] = temp[:, index]*sigma[p] + mean[p]
                 df.loc[i] = temp[:, index]
         return predictions, testData
 
