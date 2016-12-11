@@ -69,7 +69,7 @@ class Forecast:
         """
         just_data = pandas.read_csv(data, parse_dates=True,  low_memory=False)
         just_data['Date (MM/DD/YYYY)'] = just_data['Date (MM/DD/YYYY)'].map(lambda x: x[:-5])
-        just_data['Time (HH:MM)'] = just_data['Time (HH:MM)'].map(lambda x: '00:00' if x == '24:00:00' else x)
+        just_data['Time (HH:MM)'] = just_data['Time (HH:MM)'].map(lambda x: '00:00' if x == '24:00:00' or x == '24:00' else x)
         just_data['index'] = just_data['Date (MM/DD/YYYY)'] + '/1900' + ' ' + just_data['Time (HH:MM)']
         just_data.sort_values(by='index')
         self.dataBox = just_data.set_index('index')
@@ -119,7 +119,9 @@ class Forecast:
         :return:
         """
         end_horizon = datetime.strptime(self.simulation_time, '%m/%d/%Y %H:%M') + timedelta(hours=self.horizon-1)
-        start_horizon = end_horizon - timedelta(hours=2*self.horizon)
+        end_str = end_horizon.strftime('%m/%d/%Y %H:%M').replace(' 0', ' ').lstrip('0').replace('/0', '/')
+        start_horizon = end_horizon - timedelta(hours=self.horizon)
+        start_str = start_horizon.strftime('%m/%d/%Y %H:%M').replace(' 0', ' ').lstrip('0').replace('/0', '/')
 			# start_horizon.strftime('%m/%d/%Y %H:%M').replace(' 0', ' ').lstrip('0').replace('/0', '/')
 
         if trim_data:
@@ -133,7 +135,7 @@ class Forecast:
         for field in data:
             if field not in self.predictor_variables:
                 data = data.drop(field, axis=1)
-        testData = data[-self.horizon:].copy()
+        testData = data[start_str:end_str]
 
         # normalize data via z-score:
         if normalize:
@@ -167,7 +169,7 @@ class Forecast:
             copy = data.copy()
             for field in copy:
                 copy[field] = copy[field].apply(lambda x: np.random.normal(loc=x, scale=std[field]))
-            temp = fit.forecast(copy.values[-lag:], self.horizon)
+            temp = fit.forecast(copy.ix[:end_str].values, self.horizon)
 
             # grab each prediction time series, un-normalize and throw it into the appropriate predictions df
             for p in self.predictor_variables:
