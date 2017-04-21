@@ -1,0 +1,39 @@
+Id,Title,Labels,Iteration,Iteration Start,Iteration End,Type,Estimate,Current State,Created at,Accepted at,Deadline,Requested By,Description,URL,Owned By,Comment
+128462961,Construction layers arrangment matching,"",,,,bug,,started,"Aug 16, 2016",,,Mohammed Alssilani,Construction layers order in the Simuwatt and OpenStudio are opposite from inside to outside. Screenshot is in the attachment.,https://www.pivotaltracker.com/story/show/128462961,Sam Currie," (Mohammed Alssilani - Aug 16, 2016)"
+130791221,Unknown axis geometry appears in model,"",,,,bug,,started,"Sep 21, 2016",,,Matt Brown,The model geometry appears to include axis geometry. This should not appear. See attached.,https://www.pivotaltracker.com/story/show/130791221,Sam Currie," (Matt Brown - Sep 21, 2016)"
+130790083,Chillers not appearing,"",,,,bug,,started,"Sep 20, 2016",,,Matt Brown,,https://www.pivotaltracker.com/story/show/130790083,Sam Currie
+130790061,Pump per Component vs Headered Pumps Configuration Missing,"",,,,bug,,unstarted,"Sep 20, 2016",,,Matt Brown,,https://www.pivotaltracker.com/story/show/130790061,Sam Currie
+130790021,Secondary Pump Configurations Missing,"",,,,bug,,unstarted,"Sep 20, 2016",,,Matt Brown,,https://www.pivotaltracker.com/story/show/130790021,Sam Currie
+128105015,Create v0.1 Test Cases,"",,,,chore,,unstarted,"Aug 10, 2016",,,Matt Brown,Develop and provide link to document here.,https://www.pivotaltracker.com/story/show/128105015,Sam Currie
+129292981,Custom water system not converted to osm,"",,,,bug,,unstarted,"Aug 28, 2016",,,Mohammed Alssilani,"The json and osm file tested are on the attachment. custom water system don't match.
+
+thanks",https://www.pivotaltracker.com/story/show/129292981,Sam Currie," (Mohammed Alssilani - Aug 28, 2016)"
+129292959,custom chilled system not converted to osm,"",,,,bug,,unstarted,"Aug 28, 2016",,,Mohammed Alssilani,"The json and osm file tested are on the attachment. custom chilled system don't match.
+
+thanks",https://www.pivotaltracker.com/story/show/129292959,Sam Currie," (Mohammed Alssilani - Aug 28, 2016)"
+129292941,Packaged unit not converted to the osm,"",,,,bug,,unstarted,"Aug 28, 2016",,,Mohammed Alssilani,"The json and osm file tested are on the attachment. Packaged system don't match.
+
+thanks",https://www.pivotaltracker.com/story/show/129292941,Sam Currie," (Mohammed Alssilani - Aug 28, 2016)"
+129292925,"""makeBuildingStories"" error again","",,,,bug,,unstarted,"Aug 28, 2016",,,Mohammed Alssilani,"""makeBuildingStories"" error appears again. Json file not converted to osm. error massage in the attachment. Also some of the json files that has the problem.
+
+Thanks",https://www.pivotaltracker.com/story/show/129292925,Sam Currie," (Mohammed Alssilani - Aug 28, 2016)"
+128921429,gem file not working,"",,,,bug,,unstarted,"Aug 24, 2016",,,Mohammed Alssilani,"gem file not converting json files. Error message in the attachment. 
+
+Thanks",https://www.pivotaltracker.com/story/show/128921429,Sam Currie," (Mohammed Alssilani - Aug 24, 2016)"
+128466811,Applying a Luminaire to a space ,"",,,,bug,,unstarted,"Aug 16, 2016",,,Mohammed Alssilani,"applying a luminaire to a space doesnt add the luminare to the space loads in openstudio. However, the luminaire information matches properly in Luminaire Definition. Note, this works in plug load. Please see screenshot in the attachment.",https://www.pivotaltracker.com/story/show/128466811,Sam Currie," (Mohammed Alssilani - Aug 16, 2016)"
+128464137,"Assigning a Construction to a space, level or building","",,,,bug,,unstarted,"Aug 16, 2016",,,Mohammed Alssilani,"Assigning a construction to a space, level or building wouldn't do any thing. I thought it might automatically make it in a set and add it to the space or level.",https://www.pivotaltracker.com/story/show/128464137,Sam Currie,"Construction sets do not appear to use constructions defined. (Matt Brown - Sep 20, 2016)"
+128451495,Boundary Condition for ground and adjacent surfaces.,"",,,,bug,,unstarted,"Aug 16, 2016",,,Mohammed Alssilani,Outside boundary condition for everything is outdoors which should be fixed for ground and adjacent surfaces. Also the ground has wind and sun exposure which should be fixed. Screenshot in the attachment.,https://www.pivotaltracker.com/story/show/128451495,Sam Currie," (Mohammed Alssilani - Aug 16, 2016)"
+128451209,Surface matching for adjacent spaces,"",,,,bug,,unstarted,"Aug 16, 2016",,,Mohammed Alssilani,The surfaces between adjacent spaces don't match. The outside boundary condition be surface and the object should be the other surface.,https://www.pivotaltracker.com/story/show/128451209,Sam Currie
+128450939,Ground surface type,"",,,,bug,,unstarted,"Aug 16, 2016",,,Mohammed Alssilani,"The ground and roof surface types are ""RoofCeiling"". The floor surface type should be changed to floor instead of Roof. This have been checked in sketch up and openstudio. Screenshot in the attachment.",https://www.pivotaltracker.com/story/show/128450939,Sam Currie," (Mohammed Alssilani - Aug 16, 2016)"
+128280601,"Levels height, ceiling,  etc not updated in osm","",,,,bug,,unstarted,"Aug 13, 2016",,,Mohammed Alssilani,"These values below are empty in the OpenStudio model: However, they have values in the json code. 
+
+Nominal Z coordinate
+Nominal Floor to floor height
+Nominal Floor to ceiling height
+
+An example of a building json file with only two stories is on the attachment. Also print screen of the OpenStudio Interference.",https://www.pivotaltracker.com/story/show/128280601,Sam Currie," (Mohammed Alssilani - Aug 13, 2016)"
+120551343,Assign construction sets to spaces,"",,,,feature,4,unstarted,"May 31, 2016",,,Sam Currie,,https://www.pivotaltracker.com/story/show/120551343,Sam Currie
+120551311,Assign schedules to a schedule set by type,"",,,,feature,,unstarted,"May 31, 2016",,,Sam Currie,,https://www.pivotaltracker.com/story/show/120551311,
+130855305,Not Included List,"",,,,chore,,unstarted,"Sep 21, 2016",,,Matt Brown,We need documentation on those systems not supported in the release.,https://www.pivotaltracker.com/story/show/130855305,Sam Currie
+130856017,Lower Options for Supply Air Temp,"",,,,feature,,unstarted,"Sep 21, 2016",,,Matt Brown,55F is a pretty common air supply setpoint per packaged units,https://www.pivotaltracker.com/story/show/130856017,Matt Brown
+130854763,Door Constructors,"",,,,feature,,unstarted,"Sep 21, 2016",,,Matt Brown,"Doors are Construction objects in OS, currently simuwatt does not support the data needed to produce a door assembly. Recommended to roll this into the construction feature or make a doors specific layer builder",https://www.pivotaltracker.com/story/show/130854763,Matt Brown
