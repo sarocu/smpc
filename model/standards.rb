@@ -13,7 +13,7 @@ class StandardModel
 	# - vintage
 	# - HVAC system type
 	# - conditioned floor area
-	def scaffold(prototype={:type=>'largeoffice', :vintage=>2017, :climatezone=>'5B'})
+	def scaffold(prototype={:type=>'LargeOffice', :vintage=>2017, :climatezone=>'5B'})
 		@ashraeClimateZone = 'ASHRAE 169-2006-' + prototype[:climatezone]
 		set_template(prototype[:vintage])
 		@model.create_prototype_building(prototype[:type], @template, @ashraeClimateZone, @weatherfile)
@@ -24,13 +24,13 @@ class StandardModel
 		standard = ''
 	    if vintage < 1980
 	      standard = 'DOE Ref Pre-1980'
-	    elsif vintage >= 1980 and @vintage < 2004
+	    elsif vintage >= 1980 and vintage < 2004
 	      standard = 'DOE Ref 1980-2004'
-	    elsif vintage >= 2004 and @vintage < 2007
+	    elsif vintage >= 2004 and vintage < 2007
 	      standard = '90.1-2004'
-	    elsif vintage >= 2007 and @vintage < 2010
+	    elsif vintage >= 2007 and vintage < 2010
 	      standard = '90.1-2007'
-	    elsif vintage >= 2010 and @vintage < 2013
+	    elsif vintage >= 2010 and vintage < 2013
 	      standard = '90.1-2010'
 	    elsif vintage >= 2013
 	      standard = '90.1-2013'

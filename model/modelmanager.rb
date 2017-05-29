@@ -8,14 +8,14 @@ require 'distribution'
 # Model class provides a suite of helper functions for running simulations and creating a data set for fitting meta-models
 class ModelManager
 	# Load up an OSM file that we want to create a meta model from
-	def initialize(osm, seed=101)
-		@model = OpenStudio::Model::Model.load(osm)
+	def initialize(model, seed=101)
+		@model = model.get
 		@pdfs = Hash.new
 		@uncertain = Hash.new # for storing a reference between a variable to be perturbed and its pdf
 		@seed = seed
 	end
 
-	#
+	# Create unique identifiers
 	def make_random_id
 		o = [('a'..'z'), ('A'..'Z')].map(&:to_a).flatten
     	return (0...50).map { o[rand(o.length)] }.join
@@ -29,6 +29,11 @@ class ModelManager
 	# Based on a series of run results, pick out variables to calibrate by
 	def sensitivity_study
 		# boosted regression trees...
+	end
+
+	# Create a OSW file for managing the simulation workflow, save to a file.
+	def create_workflow(workflowpath='./')
+
 	end
 
 	# Randomly perturb variables and run a simulation, caching the results
