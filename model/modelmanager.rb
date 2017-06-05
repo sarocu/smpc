@@ -8,11 +8,13 @@ require 'distribution'
 # Model class provides a suite of helper functions for running simulations and creating a data set for fitting meta-models
 class ModelManager
 	# Load up an OSM file that we want to create a meta model from
-	def initialize(model, seed=101)
+	def initialize(model, seed=101, path='./demo.osm')
 		@model = model.get
 		@pdfs = Hash.new
 		@uncertain = Hash.new # for storing a reference between a variable to be perturbed and its pdf
 		@seed = seed
+		@osm_path = OpenStudio::Path.new(path)
+  		@model.save(@osm_path, true)
 	end
 
 	# Create unique identifiers
@@ -32,8 +34,10 @@ class ModelManager
 	end
 
 	# Create a OSW file for managing the simulation workflow, save to a file.
-	def create_workflow(workflowpath='./')
-
+	def create_workflow(path='./demoworkflow.osw')
+		@workflow = OpenStudio::WorkflowJSON.new
+  		@osw_path = OpenStudio::Path.new(path)
+    	@workflow.setSeedFile(File.absolute_path(@osm_path.to_s))
 	end
 
 	# Randomly perturb variables and run a simulation, caching the results
@@ -44,6 +48,7 @@ class ModelManager
 
 	# Kick off a simulation
 	def simulate
+		@workflow.saveAs(File.absolute_path(@osw_path.to_s))
   		cli_path = OpenStudio.getOpenStudioCLI
     	cmd = "\"#{cli_path}\" run -w \"#{@osw_path}\""
     	puts cmd
